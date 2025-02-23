@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.category-card {
+    min-width: 200px;
+    max-width: 200px;
+}
+
+.category-card:hover {
+    transform: scale(1.05);
+    transition: .3s;
+    background-color: whitesmoke;
+}
