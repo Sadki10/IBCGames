@@ -18,6 +18,9 @@ class RatingController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect()->back()->withErrors(['Necessites estar logat per poder valorar un joc']);
+        }
         $request->validate([
             'rating' => 'required|integer|max:5',
             'gameId' => 'required|exists:games,id'

@@ -4,13 +4,13 @@
         <i class="fa fa-{{$category->icon}}"></i>
         <h2 class="h3 m-0">{{ $category->name }}</h2>
     </div>
-    <div class="games my-4">
+    <div class="games d-flex flex-column my-4">
         @if(!count($category->games))
             No hi ha jocs en aquesta categoria :(  <img src="/img/sadCat.jpg" width="500px">
         @endif
         @foreach($category->games as $game)
-            <div class="card mb-3 gap-2 p-3" data-element="game">
-                <div class="d-flex flex-row justify-between">
+            <div class="card mb-3 gap-4 p-4" data-element="game">
+                <div class="d-flex flex-row justify-content-between">
                     <div class="fw-bold">{{ $game->name }}</div>
                     <div>
                         @php $rating = $game->ratings()->avg('rating'); @endphp
@@ -37,8 +37,8 @@
                 @endif
                 <div>{{ $game->description ?? '' }}</div>
 
-                <div class="d-flex flex-row justify-between">
-                    <ul class="d-flex list-inline text-warning gap-2">
+                <div class="d-flex flex-row justify-content-between align-items-center">
+                    <ul class="d-flex list-inline text-warning gap-2 {{ auth()->check() ?: 'pe-none' }}" data-star-rating="">
                         @for($i = 1; $i <= 5; $i++)
                             <li class="pointer" data-star-rating="" data-value="{{ $i }}">
                                 <i class="fa fa-star-o fa-lg"></i>
@@ -49,11 +49,16 @@
                             <span data-star-text="">0</span> / 5
                         </li>
                     </ul>
+                    @guest
+                        <div>
+                            <a class="alert alert-danger" href="{{ route('login') }}">Inicia sessió per valorar</a>
+                        </div>
+                    @endguest
                     <form action="{{ route('rate') }}" method="post">
                         @csrf
                         <input type="hidden" name="gameId" value="{{ $game->id }}">
                         <input type="hidden" id="rating" name="rating" data-star-input="" min="0" max="5" value="0" class="form-control">
-                        <input class="btn btn-secondary" type="submit" value="Valorar">
+                        <input class="btn btn-secondary" type="submit" value="Valorar" {{ auth()->check() ?: 'disabled' }}>
                     </form>
                 </div>
             </div>
@@ -62,5 +67,5 @@
     <a class="btn btn-secondary" href="{{ route('index') }}">Tornar enrere</a>
 @endsection
 @section('scripts')
-    <script src="{{ asset('js/ratingManager.js') }}"></script>
+    <script src="{{ asset('js/ratingManager.js') }}" defer></script>
 @endsection
