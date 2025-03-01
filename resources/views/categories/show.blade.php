@@ -38,7 +38,7 @@
                 <div>{{ $game->description ?? '' }}</div>
 
                 <div class="d-flex flex-row justify-content-between align-items-center">
-                    <ul class="d-flex list-inline text-warning gap-2 {{ auth()->check() ?: 'pe-none' }}" data-star-rating="">
+                    <ul class="d-flex list-inline text-warning gap-2 {{ auth()->check() ?: 'pe-none' }}">
                         @for($i = 1; $i <= 5; $i++)
                             <li class="pointer" data-star-rating="" data-value="{{ $i }}">
                                 <i class="fa fa-star-o fa-lg"></i>
